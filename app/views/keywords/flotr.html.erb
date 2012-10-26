@@ -1,0 +1,82 @@
+<style>
+	#container {
+	        width : 600px;
+	        height: 384px;
+	        margin: 8px auto;
+	      }
+</style>
+<%= javascript_include_tag "flotr2.min.js" %>
+<div id="container"></div>
+<script type="text/javascript">
+var ranks = <%= @keyword.rank.all(:order => 'rankdate').to_json.html_safe %>;
+(function basic_time(container) {
+
+  var
+    d1    = [],
+    start = new Date("2012/10/01 01:00").getTime(),
+    options,
+    graph,
+	yaxis_min = 100,yaxis_max = 0,
+    i, x, o;
+
+  for (i = 0; i < ranks.length; i++) {
+    //x = start+(i*1000*3600*24*1);
+	//console.info('-----------old-----------');
+	//console.info(start+(i*1000*3600*24*36.5));
+	//x = new Date().getTime();
+	//console.info('-----------new-----------');
+	//console.info(x);
+    //d1.push([x, i+Math.random()*30+Math.sin(i/20+Math.random()*2)*20+Math.sin(i/10+Math.random())*10]);
+	if(ranks.length == 1)d1.push([new Date(ranks[0].rankdate).getTime()-(1000*3600*24*2), ranks[0].ranknum]);
+	d1.push([new Date(ranks[i].rankdate).getTime(), ranks[i].ranknum]);
+	if(yaxis_min>ranks[i].ranknum)yaxis_min = ranks[i].ranknum;
+	if(yaxis_max<ranks[i].ranknum)yaxis_max = ranks[i].ranknum;
+  }
+        
+  console.info(d1);
+
+  options = {
+    xaxis : {
+      mode : 'time', 
+      labelsAngle : 45
+    },
+    yaxis : {
+      ticks : [100,90,80,70,60,50,40,30,20,10,0],
+	  max : yaxis_max+10,
+	  min : yaxis_min-10
+    },
+    selection : {
+      mode : 'x'
+    },
+    HtmlText : false,
+    title : 'Time'
+  };
+        
+  // Draw graph with default options, overwriting with passed options
+  function drawGraph (opts) {
+
+    // Clone the options, so the 'options' variable always keeps intact.
+    o = Flotr._.extend(Flotr._.clone(options), opts || {});
+
+    // Return a new graph.
+    return Flotr.draw(
+      container,
+      [ d1 ],
+      o
+    );
+  }
+
+  graph = drawGraph();      
+        
+  Flotr.EventAdapter.observe(container, 'flotr:select', function(area){
+    // Draw selected area
+    graph = drawGraph({
+      xaxis : { min : area.x1, max : area.x2, mode : 'time', labelsAngle : 45 },
+      yaxis : { min : area.y1, max : area.y2 }
+    });
+  });
+        
+  // When graph is clicked, draw the graph with default area.
+  Flotr.EventAdapter.observe(container, 'flotr:click', function () { graph = drawGraph(); });
+})(document.getElementById("container"));
+    </script>

@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  keyword_id: 1
+  ranknum: 1
+  rankdate: 2012-10-17
+
+two:
+  keyword_id: 1
+  ranknum: 1
+  rankdate: 2012-10-17

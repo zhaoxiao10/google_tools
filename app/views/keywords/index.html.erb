@@ -1,0 +1,38 @@
+<link href="/stylesheets/pagination.css" rel="stylesheet" type="text/css" />
+<h1><%= @website.name %>关键字列表</h1>
+<div id="notice"><%= notice %></div>
+<table class="table table-hover">
+  <tr>
+    <th>关键词</th>
+    <th>网站</th>
+    <th>显示页数</th>
+    <th>地区</th>
+    <th>最近排名<a href="<%= website_keywords_path @website %>?order=desc"><i class="icon-arrow-down"></i></a><a href="<%= website_keywords_path @website %>?order=asc"><i class="icon-arrow-up"></i></a></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @keywords.each do |keyword| %>
+  <tr>
+    <td><%= keyword.name %></td>
+    <td><%= keyword.link %></td>
+    <td><%= keyword.pagenum %></td>
+    <td><%= keyword.language %></td>
+    <td><%= keyword.rank.find(:all, :order => 'rankdate desc').first.ranknum unless keyword.rank.find(:all, :order => 'rankdate desc').first.nil?%></td>
+    <td><%= link_to '详细', keyword %></td>
+    <td><%= link_to '爬虫', crawler_keyword_path(keyword) %></td>
+    <td><%= link_to '图标', flotr_keyword_path(keyword), :class => 'various fancybox.iframe' %></td>
+    <td><%= link_to '编辑', edit_keyword_path(keyword) %></td>
+    <td><%= link_to '删除', keyword, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+<%= will_paginate @keywords%>
+<br />
+<%= link_to '单个添加', new_website_keyword_path, :class => 'btn' %>
+<%= link_to '批量添加', batchnew_website_keywords_path(@website), :class => 'btn' %>
+<%= link_to '批量爬虫', batchcrawler_website_keywords_path(@website), :class => 'btn' %>
+<%= link_to '导出数据', export_website_keywords_path(@website), :class => 'btn' %>

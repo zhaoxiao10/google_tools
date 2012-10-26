@@ -1,0 +1,13 @@
+<%= form_tag doexport_website_keywords_path(:website => @website, :format => 'xls') do %>
+  <!--div class="field"><%= label_tag 'link', '网站' %>
+	  <%#= select_tag :link, "<option>britanniainks.co.uk</option>".html_safe %>
+	  <%# 
+	  #select_tag "people", options_from_collection_for_select(@people, "id", "name")
+	  # <select id="people" name="people"><option value="1">David</option></select>
+	  %>
+  </div-->
+  <div class="field"><%= label_tag 'date', '开始时间' %><br />
+	  <%= select_date() %>
+  </div>
+  <div class="actions"><%= submit_tag '导出' %></div>
+<% end %>

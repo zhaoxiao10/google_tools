@@ -1,0 +1,6 @@
+<%= form_tag batchadd_website_keywords_path do %>
+  <div class="field"><%= label_tag 'keywords', '关键词（多个关键词要换行）' %><br />
+	  <%= text_area_tag 'keywords', nil, :rows => 10, :cols => 25 %>
+  </div>
+  <div class="actions"><%= submit_tag 'Save' %></div>
+<% end %>

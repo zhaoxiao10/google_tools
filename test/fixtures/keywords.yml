@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  link: MyString
+  pagenum: 1
+  language：string: MyString
+
+two:
+  name: MyString
+  link: MyString
+  pagenum: 1
+  language：string: MyString
